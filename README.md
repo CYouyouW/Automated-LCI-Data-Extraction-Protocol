@@ -25,7 +25,7 @@ We recommend using a virtual environment.
 git clone https://github.com/CYouyouW/Automated-LCI-Data-Extraction-Protocol.git
 cd Automated-LCI-Data-Extraction-Protocol
 pip install -r requirements.txt
- .
+
 ```
 
 
