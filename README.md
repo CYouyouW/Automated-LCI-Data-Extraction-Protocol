@@ -20,14 +20,20 @@ Build a solid data foundation for missing data prediction and automated LCA anal
 - `batch_number.txt`, which stores the rolling batch ID (created automatically in `outputs/` unless you set `LCA_BATCH_FILE`).
 
 **Output**
-Each run creates a timestamped batch folder (`<output_folder_base>/<MMDD>_<batch_number>/`) containing:
+Each run creates a timestamped batch folder (`<output_root>/<MMDD>_<batch_number>/`) containing:
 - A CSV per `.spold` file with cleaned intermediate and elementary exchanges (same basename as the source file).
 - Logs and diagnostics: `processing_debug.txt`, `summary.txt`, `failed_files.txt`, and the spotlight lists `non1_amount_files.csv` and `neg1_amount_files.csv`.
 - `global_activity_mapping.csv`, recording every activity ID discovered across the dataset.
 
-The helper `build_lca_matrix` step then consolidates the per-activity CSVs into a sparse flow × process matrix and writes it to the path you pass as `output_file`.
+The helper `build_lca_matrix` step then consolidates the per-activity CSVs into a sparse flow × process matrix and writes it to `LCA_MATRIX_TARGET` (defaults to the batch folder).
 
-Use `LCA_OUTPUT_ROOT` to relocate the batch directories if you prefer a different workspace.
+### Environment overrides
+- `ECOSPOLD_ROOT` — directory that holds raw `.spold` files (default: `data/spold/`).
+- `FILENAME_LOOKUP` — path to the lookup CSV (default: `data/FilenameToActivityLookup.csv`).
+- `LCA_OUTPUT_ROOT` — parent directory for batch outputs (default: `outputs/`).
+- `LCA_BATCH_FILE` — custom location for the batch counter file.
+- `LCA_MATRIX_SOURCE`/`LCA_MATRIX_TARGET` — override the matrix builder’s input/output paths.
+- `COMPARE_DIR1`/`COMPARE_DIR2` — set when using the directory comparison helper.
 
 
 # 📝Run
@@ -36,9 +42,16 @@ We recommend using a virtual environment.
 ```
 git clone https://github.com/CYouyouW/Automated-LCI-Data-Extraction-Protocol.git
 cd Automated-LCI-Data-Extraction-Protocol
+python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-
 ```
+
+## ▶️ Running the pipeline
+1. Place licensed `.spold` files under `data/spold/` (or export `ECOSPOLD_ROOT`).
+2. Copy `FilenameToActivityLookup.csv` into `data/` (or set `FILENAME_LOOKUP`).
+3. Launch the notebook (`JUPYTER_CONFIG_DIR=. jupyter lab`) and run `Automated_LCI_Data_Extraction_Protocol.ipynb` top to bottom.
+4. Inspect the new batch folder under `outputs/` for CSVs, logs, and diagnostics.
+5. (Optional) Rerun the matrix builder with `LCA_MATRIX_SOURCE`/`LCA_MATRIX_TARGET` to aggregate a specific batch elsewhere.
 
 
 
