@@ -14,8 +14,20 @@ Build a solid data foundation for missing data prediction and automated LCA anal
 
 
 # Input and Output
-Input: .spold files from the Ecoinvent 3.11 database(allocation at the point of substitution, apos) and the corresponding mapping table (FilenameToActivityLookup.csv).
-Output: An LCA matrix in CSV format with flows as rows and processes as columns.
+**Input**
+- EcoSpold v2 `.spold` datasets from the Ecoinvent 3.11 APOS release (drop them under `data/spold/` or point `ECOSPOLD_ROOT` to another directory).
+- `FilenameToActivityLookup.csv` (semicolon separated) that maps file prefixes to activity names and locations (defaults to `data/FilenameToActivityLookup.csv`, override with `FILENAME_LOOKUP`).
+- `batch_number.txt`, which stores the rolling batch ID (created automatically in `outputs/` unless you set `LCA_BATCH_FILE`).
+
+**Output**
+Each run creates a timestamped batch folder (`<output_folder_base>/<MMDD>_<batch_number>/`) containing:
+- A CSV per `.spold` file with cleaned intermediate and elementary exchanges (same basename as the source file).
+- Logs and diagnostics: `processing_debug.txt`, `summary.txt`, `failed_files.txt`, and the spotlight lists `non1_amount_files.csv` and `neg1_amount_files.csv`.
+- `global_activity_mapping.csv`, recording every activity ID discovered across the dataset.
+
+The helper `build_lca_matrix` step then consolidates the per-activity CSVs into a sparse flow × process matrix and writes it to the path you pass as `output_file`.
+
+Use `LCA_OUTPUT_ROOT` to relocate the batch directories if you prefer a different workspace.
 
 
 # 📝Run
@@ -38,4 +50,4 @@ pip install -r requirements.txt
 
 
 # 🤗Citation
-💥Please cite our paper if you find it helpful :) 
+💥Please cite our paper if you find it helpful :) SemaNet: Bridging Words and Numbers For Predicting Missing Environmental Data in Life Cycle Assessment. DOI: https://doi.org/10.1021/acs.est.5c07557
