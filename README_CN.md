@@ -53,6 +53,43 @@ pip install -r requirements.txt
 4. 在 `outputs/` 中查看新生成的批次文件夹，核对 CSV、日志与诊断结果。
 5. （可选）通过设置 `LCA_MATRIX_SOURCE`/`LCA_MATRIX_TARGET` 重新运行矩阵构建，以便汇总指定批次。
 
+## 数据准备
+
+在运行项目之前，需要下载 **ecoinvent 3.11** 的 EcoSpold02 数据集。前往 [ecoinvent 官网](https://www.ecoinvent.org/)，下载以下三个压缩包中的一个（根据所需的系统模型选择）：
+
+- `ecoinvent 3.11_cutoff_ecoSpold02.7z`
+- `ecoinvent 3.11_consequential_ecoSpold02.7z`
+- `ecoinvent 3.11_apos_ecoSpold02.7z`
+
+> ⚠️ 请仅下载其中一个压缩包，依据你所需的体系模型（cut-off、consequential 或 APOS）。
+
+解压后将得到类似以下名称的文件夹：
+
+- `ecoinvent 3.11_cutoff_ecoSpold02`
+- `ecoinvent 3.11_consequential_ecoSpold02`
+- `ecoinvent 3.11_apos_ecoSpold02`
+
+该文件夹内至少包含两个子目录：
+
+- `datasets/`（存放 `.spold` 文件）
+- `MasterData/`（存放 `.xml` 文件）
+
+请将整个解压后的文件夹放入本仓库的 `data/` 目录，例如：
+
+```
+project_root/
+│
+├─ data/
+│   ├─ spold/                        # 如果使用软链接，可链接到此处
+│   ├─ ecoinvent 3.11_cutoff_ecoSpold02/
+│   │    ├─ datasets/
+│   │    └─ MasterData/
+│
+└─ outputs/
+```
+
+完成上述步骤后，即可按照“执行流程”部分运行相关脚本。
+
 
 # 💐贡献指南
 - **报告缺陷**：在 GitHub [Issues](https://github.com/CYouyouW/Automated-LCI-Data-Extraction-Protocol/issues) 中提交。

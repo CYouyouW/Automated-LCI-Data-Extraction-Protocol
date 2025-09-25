@@ -53,6 +53,43 @@ pip install -r requirements.txt
 4. Inspect the new batch folder under `outputs/` for CSVs, logs, and diagnostics.
 5. (Optional) Rerun the matrix builder with `LCA_MATRIX_SOURCE`/`LCA_MATRIX_TARGET` to aggregate a specific batch elsewhere.
 
+## Data Preparation
+
+To run this project, you need to download the **ecoinvent 3.11** datasets (ecoSpold02 format). Go to the [ecoinvent website](https://www.ecoinvent.org/) and download **one of the following archives** (choose the system model you need):
+
+- `ecoinvent 3.11_cutoff_ecoSpold02.7z`
+- `ecoinvent 3.11_consequential_ecoSpold02.7z`
+- `ecoinvent 3.11_apos_ecoSpold02.7z`
+
+> ⚠️ Download **only one** of the three, depending on your application (cut-off, consequential, or APOS).
+
+After extracting, you will get a folder named like:
+
+- `ecoinvent 3.11_cutoff_ecoSpold02`
+- `ecoinvent 3.11_consequential_ecoSpold02`
+- `ecoinvent 3.11_apos_ecoSpold02`
+
+Inside this folder you should see at least two subfolders:
+
+- `datasets/` (contains `.spold` files)
+- `MasterData/` (contains `.xml` files)
+
+Place the extracted folder under the `data/` directory of this repository, for example:
+
+```
+project_root/
+│
+├─ data/
+│   ├─ spold/                        # (symlink here if desired)
+│   ├─ ecoinvent 3.11_cutoff_ecoSpold02/
+│   │    ├─ datasets/
+│   │    └─ MasterData/
+│
+└─ outputs/
+```
+
+Now you can run the processing scripts as described above.
+
 
 
 # 💐Contributing to Automated LCI Data Extraction Protocol 
